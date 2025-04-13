@@ -2,7 +2,7 @@ name: DayVote
 main: net.oldschoolminecraft.dv.DayVote
 authors:
   - moderator_man
-version: 1.2
+version: 1.2.5
 commands:
   vote:
     description: Votes yes or no.
