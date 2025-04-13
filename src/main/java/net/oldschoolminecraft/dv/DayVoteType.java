@@ -1,6 +1,6 @@
 package net.oldschoolminecraft.dv;
 
-public enum DayVoteType {
-
+public enum DayVoteType
+{
     NONE, DAY, RAIN
 }

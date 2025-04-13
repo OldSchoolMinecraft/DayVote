@@ -11,17 +11,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class DayVote extends JavaPlugin {
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
-
-import java.io.File;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
-public class DayVote extends JavaPlugin {
 
     private static DayVote instance;
 
@@ -44,7 +33,7 @@ public class DayVote extends JavaPlugin {
         voteType = DayVoteType.NONE;
         getCommand("vote").setExecutor(new VoteCommand());
 
-        System.out.println("DayVote version: "+ getDescription().getVersion() + " enabled!");
+        System.out.println("DayVote version: " + getDescription().getVersion() + " enabled!");
         System.out.println("Last Vote Time: " + lastVote);
         System.out.println("Last Rain Vote Time: " + lastRainVote);
         System.out.println("Current Unix Time: " + UnixTime.now());
@@ -58,10 +47,11 @@ public class DayVote extends JavaPlugin {
     public void onDisable()
     {
         forceCancelVote();
-        System.out.println("DayVote version: "+ getDescription().getVersion() + " disabled!");
+        System.out.println("DayVote version: " + getDescription().getVersion() + " disabled!");
     }
 
-    public Vote getActiveVote() {
+    public Vote getActiveVote()
+    {
         return vote;
     }
 
@@ -127,13 +117,15 @@ public class DayVote extends JavaPlugin {
         return (int) Math.max(0, voteDurationSeconds-timeSinceLastRainVoteStart);
     }
 
-    public String formatTime(final long seconds) {
+    public String formatTime(final long seconds)
+    {
         final long minute = TimeUnit.SECONDS.toMinutes(seconds);
         final long second = TimeUnit.SECONDS.toSeconds(seconds) - TimeUnit.SECONDS.toMinutes(seconds) * 60L;
         return minute + "m" + second + "s";
     }
 
-    public synchronized Vote startNewDayVote() {
+    public synchronized Vote startNewDayVote()
+    {
         if (!canStartVote()) return null;
         vote = new Vote();
         setVoteType(DayVoteType.DAY);
@@ -251,4 +243,3 @@ public class DayVote extends JavaPlugin {
         return voteType;
     }
 }
-

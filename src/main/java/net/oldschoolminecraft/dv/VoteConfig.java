@@ -4,20 +4,23 @@ import org.bukkit.util.config.Configuration;
 
 import java.io.File;
 
-public class VoteConfig extends Configuration {
-
-    public VoteConfig(File file) {
+public class VoteConfig extends Configuration
+{
+    public VoteConfig(File file)
+    {
         super(file);
         reload();
     }
 
-    public void reload() {
+    public void reload()
+    {
         load();
         write();
         save();
     }
 
-    public void write() {
+    public void write()
+    {
         generateConfigOption("allowRainVote", true);
         generateConfigOption("allowThunder", false);
         generateConfigOption("cooldownSeconds", 180); //3 minutes
@@ -38,18 +41,21 @@ public class VoteConfig extends Configuration {
         generateConfigOption("messages.failedRain", "&1[&bOSM&1] &7Vote failed! Rain storm will not be turned on.");
     }
 
-    private void generateConfigOption(String key, Object defaultValue) {
+    private void generateConfigOption(String key, Object defaultValue)
+    {
         if (this.getProperty(key) == null) this.setProperty(key, defaultValue);
         final Object value = this.getProperty(key);
         this.removeProperty(key);
         this.setProperty(key, value);
     }
 
-    public Object getConfigOption(String key) {
+    public Object getConfigOption(String key)
+    {
         return this.getProperty(key);
     }
 
-    public Object getConfigOption(String key, Object defaultValue) {
+    public Object getConfigOption(String key, Object defaultValue)
+    {
         Object value = getConfigOption(key);
         if (value == null) value = defaultValue;
         return value;

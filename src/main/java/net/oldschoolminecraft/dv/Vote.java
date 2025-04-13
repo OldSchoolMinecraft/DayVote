@@ -4,31 +4,37 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 
-public class Vote {
+public class Vote
+{
     private int yes, no;
     private ArrayList<String> voters;
 
-    public Vote() {
+    public Vote()
+    {
         voters = new ArrayList<>();
         yes = 0;
         no = 0;
     }
 
-    public void incrementYes(Player player) {
+    public void incrementYes(Player player)
+    {
         yes++;
         voters.add(player.getName());
     }
 
-    public void incrementNo(Player player) {
+    public void incrementNo(Player player)
+    {
         no++;
         voters.add(player.getName());
     }
 
-    public boolean hasVoted(Player player) {
+    public boolean hasVoted(Player player)
+    {
         return voters.contains(player.getName());
     }
 
-    public boolean didVotePass() {
+    public boolean didVotePass()
+    {
         if (no > yes) return false;
         double percentage = calculatePercentage(yes, voters.size());
         int required = (int) DayVote.getInstance().getConfig().getConfigOption("yesVotePercentageRequired");
@@ -36,7 +42,8 @@ public class Vote {
         return percentage >= required;
     }
 
-    public boolean didRainVotePass() {
+    public boolean didRainVotePass()
+    {
         if (no > yes) return false;
         double percentage = calculatePercentage(yes, voters.size());
         int required = (int) DayVote.getInstance().getConfig().getConfigOption("yesRainVotePercentageRequired");
@@ -44,15 +51,18 @@ public class Vote {
         return percentage >= required;
     }
 
-    public Integer getYesVotes() {
+    public Integer getYesVotes()
+    {
         return (int) calculatePercentage(yes, voters.size());
     }
 
-    public Integer getNoVotes() {
+    public Integer getNoVotes()
+    {
         return (int) calculatePercentage(no, voters.size());
     }
 
-    private double calculatePercentage(double obtained, double total) {
+    private double calculatePercentage(double obtained, double total)
+    {
         return obtained * 100 / total;
     }
 }
