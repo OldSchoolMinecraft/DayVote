@@ -3,6 +3,7 @@ package net.oldschoolminecraft.dv;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -22,6 +23,7 @@ public class DayVote extends JavaPlugin {
     private long lastRainStartVote;
     private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
     public DayVoteType voteType;
+    public boolean shouldWeatherBeOn = false;
 
     @Override
     public void onEnable()
@@ -32,6 +34,8 @@ public class DayVote extends JavaPlugin {
         lastRainVote = Math.max(0, UnixTime.now() - (int)config.getConfigOption("rainCooldownSeconds"));
         voteType = DayVoteType.NONE;
         getCommand("vote").setExecutor(new VoteCommand());
+
+        getServer().getPluginManager().registerEvent(Event.Type.WEATHER_CHANGE, new WeatherHandler(), Event.Priority.Lowest, this);
 
         System.out.println("DayVote version: " + getDescription().getVersion() + " enabled!");
         System.out.println("Last Vote Time: " + lastVote);
@@ -181,6 +185,7 @@ public class DayVote extends JavaPlugin {
             } else {
                 int rainDuration = (int) config.getConfigOption("rainDurationTicks");
                 broadcast(String.valueOf(config.getConfigOption("messages.succeededRain")));
+                shouldWeatherBeOn = true;
                 Bukkit.getServer().getWorld("world").setStorm(true);
                 Bukkit.getServer().getWorld("world").setWeatherDuration(rainDuration);
                 if (config.getConfigOption("allowThunder").equals(true))
@@ -206,6 +211,7 @@ public class DayVote extends JavaPlugin {
         vote = null;
         setVoteType(DayVoteType.NONE);
         lastRainVote = Math.max(0, UnixTime.now());
+        shouldWeatherBeOn = false;
     }
 
     private synchronized void forceCancelVote()
