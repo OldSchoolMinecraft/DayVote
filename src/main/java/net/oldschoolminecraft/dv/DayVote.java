@@ -211,7 +211,6 @@ public class DayVote extends JavaPlugin {
         vote = null;
         setVoteType(DayVoteType.NONE);
         lastRainVote = Math.max(0, UnixTime.now());
-        shouldWeatherBeOn = false;
     }
 
     private synchronized void forceCancelVote()
