@@ -21,8 +21,10 @@ public class VoteConfig extends Configuration
 
     public void write()
     {
+        generateConfigOption("debugMode", false);
         generateConfigOption("allowRainVote", true);
         generateConfigOption("allowThunder", false);
+        generateConfigOption("chanceForThunder", 20); //20% chance for Thunder
         generateConfigOption("cooldownSeconds", 180); //3 minutes
         generateConfigOption("rainCooldownSeconds", 3599); //59 minutes 59 seconds
         generateConfigOption("voteDurationSeconds", 60); //1 minute
