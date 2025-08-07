@@ -12,20 +12,20 @@ public class VoteCommand implements CommandExecutor
     {
         if (args.length > 0 && args[0].equalsIgnoreCase("help") || args.length > 0 && args[0].equalsIgnoreCase("?"))
         {
+
             if (sender.isOp() || sender.hasPermission("DayVote.StaffHelp"))
             {
                 sender.sendMessage("§aDayVote §7version §b" + DayVote.getInstance().getDescription().getVersion());
                 sender.sendMessage("§eCommands:");
+                sender.sendMessage("§d/dvadmin §8- §7See staff/admin commands.");
                 sender.sendMessage("§d/vote day §8- §7Starts a vote for day.");
                 sender.sendMessage("§d/vote rain §8- §7Starts a vote for rain.");
                 sender.sendMessage("§d/vote help §8- §7Reveals this help page.");
                 sender.sendMessage("§d/vote info §8- §7Displays plugin information.");
-                sender.sendMessage("§d/vote reload §8- §7Reloads the config.yml.");
-                sender.sendMessage("§d/vote reset §8- §7Resets an active vote.");
-                sender.sendMessage("§d/vote togglerainvote §8- §7Toggles rain vote.");
                 sender.sendMessage("§d/vote <yes:no> §8- §7Casts a vote for day or night.");
                 return true;
             } else {
+                //Regular Commands (Admin Commands moved to DVAdminCommand Class)
                 sender.sendMessage("§aDayVote §7version §b" + DayVote.getInstance().getDescription().getVersion());
                 sender.sendMessage("§eCommands:");
                 sender.sendMessage("§d/vote day §8- §7Starts a vote for day.");
@@ -35,20 +35,6 @@ public class VoteCommand implements CommandExecutor
                 sender.sendMessage("§d/vote <yes:no> §8- §7Casts a vote for day or night.");
                 return true;
             }
-        }
-
-        if (args.length > 0 && args[0].equalsIgnoreCase("togglerainvote") && (sender.isOp() || sender.hasPermission("DayVote.ToggleRainVote")))
-        {
-            if (DayVote.getInstance().canVoteRain())
-            {
-                DayVote.getInstance().setAllowRainVote(false);
-                sender.sendMessage("§aRain vote §bdisabled§a!");
-            } else {
-                DayVote.getInstance().setAllowRainVote(true);
-                sender.sendMessage("§aRain vote §benabled§a!");
-                return true;
-            }
-            return true;
         }
 
         if (args.length > 0 && args[0].equalsIgnoreCase("info"))
@@ -58,36 +44,6 @@ public class VoteCommand implements CommandExecutor
             sender.sendMessage("§7Authors(s): §emoderator_man");
             sender.sendMessage("§7Contributors(s): §ematjaklol§7, §eSavageUser§7");
             return true;
-        }
-
-        if (args.length > 0 && args[0].equalsIgnoreCase("reload") && (sender.isOp() || sender.hasPermission("DayVote.Reload")))
-        {
-            DayVote.getInstance().getConfig().reload();
-            sender.sendMessage("§aReloaded §bconfig.yml§a!");
-            return true;
-        }
-
-        if (args.length > 0 && args[0].equalsIgnoreCase("reset") && (sender.isOp() || sender.hasPermission("DayVote.Reset")))
-        {
-            Vote vote = DayVote.getInstance().getActiveVote();
-
-            if (vote == null)
-            {
-                sender.sendMessage("§4Theres no active vote to reset!");
-                return true;
-            } else {
-                if (DayVote.getInstance().getVoteType() == DayVoteType.DAY)
-                {
-                    DayVote.getInstance().processDayVote();
-                    return true;
-                } else if (DayVote.getInstance().getVoteType() == DayVoteType.RAIN) {
-                    DayVote.getInstance().processRainVote();
-                    return true;
-                }
-
-                sender.sendMessage("§aCurrent vote §bterminated§a!");
-                return true;
-            }
         }
 
         if (!(sender instanceof Player))
@@ -204,23 +160,29 @@ public class VoteCommand implements CommandExecutor
             else sender.sendMessage("§4No vote is active! Use §b/vote day §4or §b/vote rain §4to start a vote.");
             return true;
         } else {
-            sender.sendMessage("§aDayVote §7version §b" + DayVote.getInstance().getDescription().getVersion());
-            sender.sendMessage("§eCommands:");
-            sender.sendMessage("§d/vote day §8- §7Starts a vote for day.");
-            sender.sendMessage("§d/vote rain §8- §7Starts a vote for rain.");
-            sender.sendMessage("§d/vote help §8- §7Reveals this help page.");
-            sender.sendMessage("§d/vote info §8- §7Displays plugin information.");
 
             if (sender.isOp() || sender.hasPermission("DayVote.StaffHelp"))
             {
-                sender.sendMessage("§d/vote reload §8- §7Reloads the config.yml.");
-                sender.sendMessage("§d/vote reset §8- §7Resets an active vote.");
-                sender.sendMessage("§d/vote togglerainvote §8- §7Toggles rain vote.");
+                sender.sendMessage("§aDayVote §7version §b" + DayVote.getInstance().getDescription().getVersion());
+                sender.sendMessage("§eCommands:");
+                sender.sendMessage("§d/dvadmin §8- §7See staff/admin commands.");
+                sender.sendMessage("§d/vote day §8- §7Starts a vote for day.");
+                sender.sendMessage("§d/vote rain §8- §7Starts a vote for rain.");
+                sender.sendMessage("§d/vote help §8- §7Reveals this help page.");
+                sender.sendMessage("§d/vote info §8- §7Displays plugin information.");
+                sender.sendMessage("§d/vote <yes:no> §8- §7Casts a vote for day or night.");
+                return true;
+            } else {
+                //Regular Commands (Admin Commands moved to DVAdminCommand Class)
+                sender.sendMessage("§aDayVote §7version §b" + DayVote.getInstance().getDescription().getVersion());
+                sender.sendMessage("§eCommands:");
+                sender.sendMessage("§d/vote day §8- §7Starts a vote for day.");
+                sender.sendMessage("§d/vote rain §8- §7Starts a vote for rain.");
+                sender.sendMessage("§d/vote help §8- §7Reveals this help page.");
+                sender.sendMessage("§d/vote info §8- §7Displays plugin information.");
+                sender.sendMessage("§d/vote <yes:no> §8- §7Casts a vote for day or night.");
+                return true;
             }
-
-            sender.sendMessage("§d/vote <yes:no> §8- §7Casts a vote for day or night.");
-
-            return true;
         }
     }
 
