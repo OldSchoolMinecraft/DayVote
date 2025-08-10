@@ -39,6 +39,7 @@ public class Vote
         double percentage = calculatePercentage(yes, voters.size());
         int required = (int) DayVote.getInstance().getConfig().getConfigOption("yesVotePercentageRequired");
         System.out.println("Vote finished with percentage: " + percentage + " (" + required + " required)");
+        DayVote.getInstance().sendDebugMessage("Vote finished with percentage: " + percentage + " (" + required + " required)");
         return percentage >= required;
     }
 
@@ -48,6 +49,7 @@ public class Vote
         double percentage = calculatePercentage(yes, voters.size());
         int required = (int) DayVote.getInstance().getConfig().getConfigOption("yesRainVotePercentageRequired");
         System.out.println("Vote finished with percentage: " + percentage + " (" + required + " required)");
+        DayVote.getInstance().sendDebugMessage("Vote finished with percentage: " + percentage + " (" + required + " required)");
         return percentage >= required;
     }
 
@@ -63,7 +65,7 @@ public class Vote
 
     private double calculatePercentage(double obtained, double total)
     {
+        if (total <= 0) return 0; // Prevent division by zero
         return obtained * 100 / total;
     }
 }
-
